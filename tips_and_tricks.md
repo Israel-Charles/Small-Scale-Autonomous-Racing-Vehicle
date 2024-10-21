@@ -131,7 +131,7 @@ To automatically source the ROS setup file every time you open a terminal, you c
    You should see the correct ROS version (e.g., `foxy`).
 ---
 
-## **Basic `tmux` keybindings
+## **Basic `tmux` keybindings**
 
 `tmux` is a helpful that allows you to have multiple bash session in the same terminal window. This will be very convenient working inside containers. It could be installed on your machine or in a container via: `apt update && apt install tmux`.
 
