@@ -139,30 +139,25 @@ Here’s a list of some of the **most common `tmux` key bindings** to help you n
 
 ## **Common Tmux Key Bindings**
 
-### **Basic Keybindings
+### **Basic Keybindings**
 - **`tmux` + `:`** – Open a tmux session.
 - **`tmux new -s <session name>` + `:`** – Open a named tmux session called `<session name>`.
 - **`tmux ls`** – List all tmux sessions.
 - **`tmux attach`** – Reattach to the most recent detached session.
 - **`tmux attach -t <session to attach>`** – Reattach a specific session (`<session to attach>` is the session name).
-
-  
 - **`Ctrl + b` + `d`** – Detach from the current session (session keeps running in the background).
 - **`Ctrl + b` + `%`** – Split the window **vertically** (side-by-side panes).
 - **`Ctrl + b` + `"`** – Split the window **horizontally** (top-bottom panes).
 - **`Ctrl + b` + `<arrow keys>`** – To move between panes (Left, Right, Up, Down).
 - **`Ctrl + b` + `x`** – Close the current pane.
-
-  
 - **`Ctrl + b` + `c`** – Create a new window.
 - **`Ctrl + b` + `n`** – Switch to the **next** window.
 - **`Ctrl + b` + `p`** – Switch to the **previous** window.
 - **`Ctrl + b` + `0-9`** – Switch to a specific window by its number.
-
-
 - **`Ctrl + b` + `w`** – Open a panel to navigate across the sessions and windows of `tmux`.
 - **`Ctrl + b` + `?`** – Show the help screen with all key bindings.
 - **`Ctrl + b` + `:`** – Open the tmux command prompt.
+
 
 ### **Additional Keybindings**
 #### **Window Management**
@@ -184,5 +179,7 @@ Here’s a list of some of the **most common `tmux` key bindings** to help you n
 #### **Miscellaneous**
 - **`Ctrl + b` + `t`** – Show the current time.
 
-***If you want to customize key bindings, you can modify your `~/.tmux.conf` file***
+> [!Note]
+> **If you want to customize key bindings, you can modify your `~/.tmux.conf` file**
+
 ---
