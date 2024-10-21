@@ -2,9 +2,13 @@
 
 While working on this project, you might want to establish some shortcuts to make things easier. You might also run into some common issues. Below are some of the tips and tricks I learned throughout the project.
 
+---
+
 ## **Table of Contents**
 - [Delay when executing `sudo` commands](#delay-when-executing-sudo-commands)
 - [Automatically start ROS Setup file](#automatically-start-ros-setup-file)
+- [Basic `tmux` keybindings](#basic-tmux-keybindings)
+
 ---
 
 ## **Delay when executing `sudo` commands**
@@ -60,7 +64,7 @@ Run the following command to see your current hostname:
    ```
 
    If the command executes quickly, the issue was likely caused by hostname resolution problems.
-
+---
 
 ## **Automatically start ROS Setup file**
 
@@ -125,4 +129,60 @@ To automatically source the ROS setup file every time you open a terminal, you c
    echo $ROS_DISTRO
    ```
    You should see the correct ROS version (e.g., `foxy`).
+---
 
+## **Basic `tmux` keybindings
+
+`tmux` is a helpful that allows you to have multiple bash session in the same terminal window. This will be very convenient working inside containers. It could be installed on your machine or in a container via: `apt update && apt install tmux`.
+
+Here’s a list of some of the **most common `tmux` key bindings** to help you navigate, manage panes, windows, and sessions efficiently. These bindings assume the default **prefix key** is `Ctrl + b` (meaning you first press `Ctrl + b`, release, and then the respective key).
+
+## **Common Tmux Key Bindings**
+
+### **Basic Keybindings
+- **`tmux` + `:`** – Open a tmux session.
+- **`tmux new -s <session name>` + `:`** – Open a named tmux session called `<session name>`.
+- **`tmux ls`** – List all tmux sessions.
+- **`tmux attach`** – Reattach to the most recent detached session.
+- **`tmux attach -t <session to attach>`** – Reattach a specific session (`<session to attach>` is the session name).
+
+  
+- **`Ctrl + b` + `d`** – Detach from the current session (session keeps running in the background).
+- **`Ctrl + b` + `%`** – Split the window **vertically** (side-by-side panes).
+- **`Ctrl + b` + `"`** – Split the window **horizontally** (top-bottom panes).
+- **`Ctrl + b` + `<arrow keys>`** – To move between panes (Left, Right, Up, Down).
+- **`Ctrl + b` + `x`** – Close the current pane.
+
+  
+- **`Ctrl + b` + `c`** – Create a new window.
+- **`Ctrl + b` + `n`** – Switch to the **next** window.
+- **`Ctrl + b` + `p`** – Switch to the **previous** window.
+- **`Ctrl + b` + `0-9`** – Switch to a specific window by its number.
+
+
+- **`Ctrl + b` + `w`** – Open a panel to navigate across the sessions and windows of `tmux`.
+- **`Ctrl + b` + `?`** – Show the help screen with all key bindings.
+- **`Ctrl + b` + `:`** – Open the tmux command prompt.
+
+### **Additional Keybindings**
+#### **Window Management**
+- **`Ctrl + b` + `,`** – Rename the current window.
+- **`Ctrl + b` + `&`** – Close the current window.
+
+#### **Pane Management**
+- **`Ctrl + b` + `o`** – Switch to the **next** pane.
+- **`Ctrl + b` + `{` / `}`** – Swap the current pane with the previous/next pane.
+- **`Ctrl + b` + `z`** – Toggle zoom for the current pane (fullscreen).
+
+#### **Copy Mode**
+- **`Ctrl + b` + `[`** – Enter **copy mode** (for scrolling through output).
+- **`Ctrl + b` + `]`** – Paste copied content from the buffer.
+- **`q`** – Exit copy mode.
+- **`Space`** – Begin selection in copy mode.
+- **`Enter`** – Copy the selected text to the tmux buffer.
+
+#### **Miscellaneous**
+- **`Ctrl + b` + `t`** – Show the current time.
+
+***If you want to customize key bindings, you can modify your `~/.tmux.conf` file***
+---
