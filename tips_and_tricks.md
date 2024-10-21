@@ -5,8 +5,8 @@ While working on this project, you might want to establish some shortcuts to mak
 ---
 
 ## **Table of Contents**
-- [**Delay when executing `sudo` commands**](#--delay-when-executing--sudo--commands--)
-- [**Automatically start ROS Setup file**](#--automatically-start-ros-setup-file--)
+* [**Delay when executing `sudo` commands**](#--delay-when-executing--sudo--commands--)
+* [**Automatically start ROS Setup file**](#automatically-start-ros-setup-file--)
 
 ---
 
