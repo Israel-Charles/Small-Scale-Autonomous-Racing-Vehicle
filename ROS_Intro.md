@@ -37,12 +37,13 @@ This creates the following structure:
 
 ```
 my_python_pkg/
-├── package.xml
-├── setup.py
+├── package.xml # file containing meta information about the package
+├── setup.py # containing instructions for how to install the package
+├── setup.cfg # required when a package has executables, so ros2 run can find them
 ├── resource/
-│   └── my_python_pkg
-└── my_python_pkg/
-    └── __init__.py
+│   └── my_python_pkg # marker file for the package
+└── my_python_pkg/ # a directory with the same name as your package, used by ROS 2 tools to find your package, contains __init__.py
+    └── __init__.py # used to mark directories on disk as Python package directories
 ```
 
 ### **Modify `setup.py` to Install the Python Code**
@@ -53,7 +54,8 @@ Edit the `setup.py` file:
 nano my_python_pkg/setup.py
 ```
 
-Add the following to ensure the Python module installs correctly:
+Make sure that the `setup.py` file is similar to the one below.
+(You can add `'talker = my_python_pkg.talker:main'` to the `console scripts` so that you can have a shortcut for running a script
 
 ```python
 from setuptools import setup
@@ -98,12 +100,14 @@ class Talker(Node):
         super().__init__('talker')
         self.publisher_ = self.create_publisher(String, 'chatter', 10)
         self.timer = self.create_timer(0.5, self.timer_callback)
+        self.counter = 0
 
     def timer_callback(self):
+        self.counter += 1
         msg = String()
         msg.data = 'Hello ROS 2 Foxy'
         self.publisher_.publish(msg)
-        self.get_logger().info(f'Publishing: "{msg.data}"')
+        self.get_logger().info(f'Publishing message {self.counter}: "{msg.data}"')
 
 def main(args=None):
     rclpy.init(args=args)
@@ -132,7 +136,7 @@ cd ~/ros2_ws/src
 Create a C++ package named **`my_cpp_pkg`**:
 
 ```bash
-ros2 pkg create my_cpp_pkg --build-type ament_cmake --dependencies rclcpp std_msgs
+ros2 pkg create my_cpp_pkg --build-type ament_cmake --dependencies rclcpp
 ```
 
 This creates the following structure:
