@@ -2,16 +2,9 @@
 
 While working on this project, you might want to establish some shortcuts to make things easier. You might also run into some common issues. Below are some of the tips and tricks I learned throughout the project.
 
----
-
 ## **Table of Contents**
-* [**Delay when executing `sudo` commands**](#--delay-when-executing--sudo--commands--)
-* [**Automatically start ROS Setup file**](#automatically-start-ros-setup-file--)
-
 - [Delay when executing `sudo` commands](#delay-when-executing-sudo-commands)
 - [Automatically start ROS Setup file](#automatically-start-ros-setup-file)
-
----
 ---
 
 ## **Delay when executing `sudo` commands**
@@ -74,7 +67,7 @@ Run the following command to see your current hostname:
 To automatically source the ROS setup file every time you open a terminal, you can add the `source` command to the appropriate shell configuration file. Below are the steps to set this up for different shells like `bash`, `zsh`, or `fish`. 
 
 ### **Step 1: Identify Your ROS Version and Shell**
-- **ROS Version Example**: Foxy, Humble, or Noetic  
+- **ROS Version Example**: Foxy, Humble, Jazzy, or Noetic  
 - **Shell Example**: `bash`, `zsh`, or `fish`  
 - **Setup File Location**: `/opt/ros/<ros_version>/setup.<shell>`
 
@@ -124,8 +117,6 @@ To automatically source the ROS setup file every time you open a terminal, you c
    ```
 
    No need to reload, it will apply automatically to new terminals.
-
----
 
 ### **Step 3: Verify the Setup**
 1. Close the terminal and open a new one.  
