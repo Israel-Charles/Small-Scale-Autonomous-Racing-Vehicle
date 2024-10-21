@@ -2,6 +2,14 @@
 
 While working on this project, you might want to establish some shortcuts to make things easier. You might also run into some common issues. Below are some of the tips and tricks I learned throughout the project.
 
+---
+
+## **Table of Contents**
+- [**Delay when executing `sudo` commands**](#--delay-when-executing--sudo--commands--)
+- [**Automatically start ROS Setup file**](#--automatically-start-ros-setup-file--)
+
+---
+
 ## **Delay when executing `sudo` commands**
 The delay in running `sudo` commands is often related to hostname resolution issues, especially if the hostname of your machine isn’t correctly configured or resolvable. Here are several steps to troubleshoot and resolve this issue on your machine:
 
