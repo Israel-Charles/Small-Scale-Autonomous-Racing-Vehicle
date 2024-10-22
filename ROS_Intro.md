@@ -1,5 +1,4 @@
-Below is a step-by-step guide to **create both a Python and C++ package** in a **ROS 2 Foxy workspace**.
-
+# ROS Intro
 ---
 
 ## **Step 1: Create a ROS 2 Workspace**
