@@ -22,7 +22,7 @@ Ensure that:
 
 ## Python
 
-To implement the **publisher and subscriber in C++** transmitting standard `Strings`, follow the steps below. 
+To implement the **publisher and subscriber in Python** transmitting standard `Strings`, follow the steps below. 
 
 
 ### **Step 1: Create a Python Package**
