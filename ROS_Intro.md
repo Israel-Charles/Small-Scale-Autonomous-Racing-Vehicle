@@ -58,34 +58,59 @@ In the `my_python_pkg` folder, create the publisher node as `simple_publisher.py
 
 **File:** `~/ros2_ws/src/my_python_pkg/my_python_pkg/simple_publisher.py`
 ```python
-import rclpy
-from rclpy.node import Node
-from std_msgs.msg import String
+import rclpy                          # Import ROS2 Python client library
+from rclpy.node import Node           # Import Node class to create a ROS2 node
+from std_msgs.msg import String       # Import standard String message
 
 class SimplePublisher(Node):
     def __init__(self):
+        # Initialize the node with the name 'simple_publisher'
         super().__init__('simple_publisher')
+
+        # Create a publisher of message type: String; topic name: 'topic'
+        # And queue size: 10 (buffer size for outgoing messages)
         self.publisher_ = self.create_publisher(String, 'topic', 10)
+
+        # Create a timer that triggers 'timer_callback' every 1 second
+        # The timer allows us to publish messages at a fixed interval.
         self.timer = self.create_timer(1.0, self.publish_message)  # 1 second interval
+
+        # Initialize a counter to keep track of how many messages we've sent
         self.count = 0
 
     def publish_message(self):
+        # Called every 0.5 seconds due to the timer.
+
+        # Create a new String message instance
         msg = String()
+
+        # Set its data field to a friendly message including the counter
         msg.data = f'Hello ROS 2: {self.count}'
+
+        # Publish the message to the topic
         self.publisher_.publish(msg)
+
+        # Log output to the console so we see what is being published
         self.get_logger().info(f'Publishing: "{msg.data}"')
+
+        # Increment counter for the next message
         self.count += 1
 
 def main(args=None):
+    # Initialize the ROS client library
     rclpy.init(args=args)
+
+    # Create an instance of our publisher node
     node = SimplePublisher()
-    try:
-        rclpy.spin(node)
-    except KeyboardInterrupt:
-        pass
-    finally:
-        node.destroy_node()
-        rclpy.shutdown()
+
+    # Keep the node running until it is killed, allowing callbacks (like the timer) to function
+    rclpy.spin(node)
+    
+    # Once we exit spin (e.g., by pressing Ctrl+C), destroy the node
+    node.destroy_node()
+    
+    # Shutdown ROS2 gracefully
+    rclpy.shutdown()
 
 if __name__ == '__main__':
     main()
@@ -99,38 +124,66 @@ Create the subscriber node as `simple_subscriber.py`.
 
 **File:** `~/ros2_ws/src/my_python_pkg/my_python_pkg/simple_subscriber.py`
 ```python
-import rclpy
-from rclpy.node import Node
-from std_msgs.msg import String
+import rclpy                          # Import the ROS2 Python client library for initializing nodes and handling ROS-related operations
+from rclpy.node import Node           # Import the Node class, which serves as the base class for all ROS2 node implementations
+from std_msgs.msg import String       # Import the standard ROS2 String message type for sending and receiving text data
 
 class SimpleSubscriber(Node):
     def __init__(self):
+        # Initialize this class as a ROS2 node named 'simple_subscriber'
         super().__init__('simple_subscriber')
+        
+        # Create a subscription to a topic named 'topic' that publishes String messages.
+        # Arguments:
+        #   String: The message type the subscriber expects (std_msgs/String)
+        #   'topic': The name of the topic to subscribe to
+        #   self.listener_callback: The callback function that will be triggered when a new message arrives
+        #   10: The queue size (message buffer) if messages arrive faster than they can be processed
         self.subscription = self.create_subscription(
             String,
             'topic',
             self.listener_callback,
             10)
-        self.subscription  # Prevent unused variable warning
+        
+        # This line doesn't do anything functionally; it simply prevents a linting or IDE warning about the subscription
+        # variable not being used. It's a common practice in ROS2 Python examples.
+        self.subscription
 
     def listener_callback(self, msg):
+        # This callback function is triggered each time a new message is received from the 'topic'.
+        # 'msg' is a String message, so we access its data field to get the actual text content.
+        # We then use the node's built-in logging system to print the received data.
         self.get_logger().info(f'Received: "{msg.data}"')
 
 def main(args=None):
+    # Initialize the ROS2 client library, necessary before using any ROS2-related code
     rclpy.init(args=args)
+    
+    # Create an instance of the SimpleSubscriber node
     node = SimpleSubscriber()
+
     try:
+        # Spin the node, meaning this will block and process any incoming callbacks indefinitely
+        # until an external event (like Ctrl+C) interrupts the process.
         rclpy.spin(node)
     except KeyboardInterrupt:
+        # If the user presses Ctrl+C in the terminal, a KeyboardInterrupt exception is raised.
+        # Here, we simply pass to allow the program to proceed to the 'finally' block for cleanup.
         pass
     finally:
+        # Once we are done spinning or have been interrupted, we destroy the node to clean up resources.
         node.destroy_node()
+        
+        # Shut down the rclpy library, releasing all ROS2-related resources.
         rclpy.shutdown()
 
+# The standard Python entry point for executable scripts.
+# If this script is run directly (e.g., 'python3 subscriber.py'), execute the main() function.
 if __name__ == '__main__':
     main()
 ```
-
+> [!Note]
+> The `try/except/finally` block is not strictly necessary, but it’s considered good practice for graceful shutdown.
 ---
 
 ### Step 4: Update the Setup Configuration
