@@ -49,6 +49,7 @@ The image below shows the five components we will mount on the **Platform Deck**
 
 1. **Connect the antenna cables first** before mounting the Jetson NX:
    - Flip the Jetson around.
+   - **Make sure that the WiFi card and Storage device is intalled on the Jetson before mounting it**
    - Clip **both antenna cables** to the connectors on the Jetson.
 
    > ***Note that it might be a little hard to clip the connectors. Ensure that the connectors are compatible. (buying the WiFi card and its Antenna as a bundle is a way to ensure that they are compatible)***
