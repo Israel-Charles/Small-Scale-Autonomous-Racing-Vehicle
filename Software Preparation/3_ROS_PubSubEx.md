@@ -1,29 +1,34 @@
-# ROS Basic Example of Publisher & Subscriber
+# ROS Simple Example of Publisher & Subscriber
 
 Instructions for two nodes (Python and C++): a **publisher** that sends string messages and a **subscriber** that receives and prints them.
 
 ---
 
 ## Prerequisites
+
 Ensure that:
+
 1. Your desired version of ROS is installed.
 2. You have sourced the ROS setup file, for example:
+
    ```bash
    source /opt/ros/foxy/setup.bash
    ```
-4. You have a ROS 2 workspace ready. If not, create and source it:
+
+3. You have a ROS 2 workspace ready. If not, create and source it:
+
    ```bash
    mkdir -p ~/ros2_ws/src
    cd ~/ros2_ws
    colcon build
    ```
 
+> The argument `-p` is create the parent folder if it does not exist. `ros2_ws` is the worspace name, you can replace it with whatever you like
 ---
 
 ## Python
 
-To implement the **publisher and subscriber in Python** transmitting standard `Strings`, follow the steps below. 
-
+To implement the **publisher and subscriber in Python** transmitting standard `Strings`, follow the steps below.
 
 ### **Step 1: Create a Python Package**
 
@@ -39,9 +44,16 @@ Create a package named `my_python_pkg` with dependencies on `rclpy` and `std_msg
 ros2 pkg create my_python_pkg --build-type ament_python --dependencies rclpy std_msgs
 ```
 
+> `--build-type ament_python` specifies the build system of the package and that it will be a Python-based ROS 2 package.
+>
+> `--dependencies rclpy std_msgs` specifies the dependencies the package requires:
+>
+> - `rclpy` is the Python client library for ROS 2, needed to write ROS 2 nodes in Python.
+> - `std_msgs` is a package that provides standard message types, such as String, Int32, and Float64
+
 This creates the following structure:
 
-```
+```bash
 my_python_pkg/
 ├── package.xml # file containing meta information about the package
 ├── setup.py # containing instructions for how to install the package
@@ -57,6 +69,7 @@ my_python_pkg/
 In the `my_python_pkg` folder, create the publisher node as `simple_publisher.py`.
 
 **File:** `~/ros2_ws/src/my_python_pkg/my_python_pkg/simple_publisher.py`
+
 ```python
 import rclpy                          # Import ROS2 Python client library
 from rclpy.node import Node           # Import Node class to create a ROS2 node
@@ -69,7 +82,7 @@ class SimplePublisher(Node):
 
         # Create a publisher of message type: String; topic name: 'topic'
         # And queue size: 10 (buffer size for outgoing messages)
-        self.publisher_ = self.create_publisher(String, 'topic', 10)
+        self.publisher_ = self.create_publisher(String, 'ros2intro', 10)
 
         # Create a timer that triggers 'timer_callback' every 1 second
         # The timer allows us to publish messages at a fixed interval.
@@ -79,7 +92,7 @@ class SimplePublisher(Node):
         self.count = 0
 
     def publish_message(self):
-        # Called every 0.5 seconds due to the timer.
+        # Called every 1.0 second due to the timer.
 
         # Create a new String message instance
         msg = String()
@@ -123,6 +136,7 @@ if __name__ == '__main__':
 Create the subscriber node as `simple_subscriber.py`.
 
 **File:** `~/ros2_ws/src/my_python_pkg/my_python_pkg/simple_subscriber.py`
+
 ```python
 import rclpy                          # Import the ROS2 Python client library for initializing nodes and handling ROS-related operations
 from rclpy.node import Node           # Import the Node class, which serves as the base class for all ROS2 node implementations
@@ -141,7 +155,7 @@ class SimpleSubscriber(Node):
         #   10: The queue size (message buffer) if messages arrive faster than they can be processed
         self.subscription = self.create_subscription(
             String,
-            'topic',
+            'ros2intro',
             self.listener_callback,
             10)
         
@@ -182,6 +196,7 @@ def main(args=None):
 if __name__ == '__main__':
     main()
 ```
+
 > [!Note]
 > The `try/except/finally` block is not strictly necessary, but it’s considered good practice for graceful shutdown.
 ---
@@ -191,6 +206,7 @@ if __name__ == '__main__':
 Modify `setup.py` to install your nodes.
 
 **File:** `~/ros2_ws/src/my_python_pkg/setup.py`
+
 ```python
 from setuptools import setup
 
@@ -221,11 +237,14 @@ setup(
 ### Step 5: Build and Source the Package
 
 Go to the workspace root, build the package, and source it:
+
 ```bash
 cd ~/ros2_ws
 colcon build
 source install/setup.bash
 ```
+
+> Replace `.bash` with the appropriate Shell if you are not using Bash Shell
 
 ---
 
@@ -233,13 +252,15 @@ source install/setup.bash
 
 In two separate terminals, run the publisher and subscriber:
 
-**Terminal 1: Publisher**
+#### Terminal 1: Publisher
+
 ```bash
 source ~/ros2_ws/install/setup.bash
 ros2 run my_python_pkg simple_publisher
 ```
 
-**Terminal 2: Subscriber**
+#### Terminal 2: Subscriber
+
 ```bash
 source ~/ros2_ws/install/setup.bash
 ros2 run my_python_pkg simple_subscriber
@@ -249,24 +270,27 @@ ros2 run my_python_pkg simple_subscriber
 
 ### Expected Output
 
-- **Publisher Terminal:**  
-  ```
+- **Publisher Terminal:**
+
+  ```bash
   [INFO] [simple_publisher]: Publishing: "Hello ROS 2: 0"
   [INFO] [simple_publisher]: Publishing: "Hello ROS 2: 1"
   ...
   ```
 
-- **Subscriber Terminal:**  
-  ```
+- **Subscriber Terminal:**
+
+  ```bash
   [INFO] [simple_subscriber]: Received: "Hello ROS 2: 0"
   [INFO] [simple_subscriber]: Received: "Hello ROS 2: 1"
   ...
   ```
+
 ---
 
 ## C++
 
-To implement the **publisher and subscriber in C++** transmitting standard `Strings`, follow the steps below. 
+To implement the **publisher and subscriber in C++** transmitting standard `Strings`, follow the steps below.
 
 ---
 
@@ -286,16 +310,17 @@ ros2 pkg create my_cpp_pkg --build-type ament_cmake --dependencies rclcpp std_ms
 
 This creates the following structure:
 
-```
+```bash
 my_cpp_pkg/
 ├── CMakeLists.txt # file that describes how to build the code within the package
 ├── include/<package_name> # directory containing the public headers for the package
 ├── package.xml # file containing meta information about the package
 └── src/ # directory containing the source code for the package
 ```
+
 ---
 
-### Step 2: Write the Publisher Node
+### Step 2: Write the Publisher Node (C)
 
 Create the file `simple_publisher.cpp` inside the `src` directory of the `my_cpp_pkg` package.
 
@@ -308,7 +333,7 @@ Create the file `simple_publisher.cpp` inside the `src` directory of the `my_cpp
 class SimplePublisher : public rclcpp::Node {
 public:
     SimplePublisher() : Node("simple_publisher"), count_(0) {
-        publisher_ = this->create_publisher<std_msgs::msg::String>("topic", 10);
+        publisher_ = this->create_publisher<std_msgs::msg::String>("ros2intro", 10);
         timer_ = this->create_wall_timer(
             std::chrono::seconds(1),
             std::bind(&SimplePublisher::publish_message, this));
@@ -337,7 +362,7 @@ int main(int argc, char *argv[]) {
 
 ---
 
-### Step 3: Write the Subscriber Node
+### Step 3: Write the Subscriber Node (C)
 
 Create the file `simple_subscriber.cpp` inside the `src` directory of the `my_cpp_pkg` package.
 
@@ -351,7 +376,7 @@ class SimpleSubscriber : public rclcpp::Node {
 public:
     SimpleSubscriber() : Node("simple_subscriber") {
         subscription_ = this->create_subscription<std_msgs::msg::String>(
-            "topic", 10, std::bind(&SimpleSubscriber::topic_callback, this, std::placeholders::_1));
+            "ros2intro", 10, std::bind(&SimpleSubscriber::topic_callback, this, std::placeholders::_1));
     }
 
 private:
@@ -402,9 +427,10 @@ ament_package()
 
 ---
 
-### Step 5: Build and Source the Package
+### Step 5: Build and Source the Package (C)
 
 Build the package and source it:
+
 ```bash
 cd ~/ros2_ws
 colcon build --packages-select my_cpp_pkg
@@ -413,17 +439,19 @@ source install/setup.bash
 
 ---
 
-### Step 6: Run the Nodes
+### Step 6: Run the Nodes (C)
 
 Open two terminals and run the publisher and subscriber nodes.
 
-**Terminal 1: Run the Publisher**
+#### Terminal 1: Run the Publisher**
+
 ```bash
 source ~/ros2_ws/install/setup.bash
 ros2 run my_cpp_pkg simple_publisher
 ```
 
-**Terminal 2: Run the Subscriber**
+#### Terminal 2: Run the Subscriber**
+
 ```bash
 source ~/ros2_ws/install/setup.bash
 ros2 run my_cpp_pkg simple_subscriber
@@ -431,17 +459,19 @@ ros2 run my_cpp_pkg simple_subscriber
 
 ---
 
-## Expected Output
+## Expected Output (C)
 
 - **Publisher Terminal:**
-  ```
+
+  ```bash
   [INFO] [simple_publisher]: Publishing: 'Hello ROS 2: 0'
   [INFO] [simple_publisher]: Publishing: 'Hello ROS 2: 1'
   ...
   ```
 
 - **Subscriber Terminal:**
-  ```
+
+  ```bash
   [INFO] [simple_subscriber]: Received: 'Hello ROS 2: 0'
   [INFO] [simple_subscriber]: Received: 'Hello ROS 2: 1'
   ...
@@ -449,11 +479,10 @@ ros2 run my_cpp_pkg simple_subscriber
 
 ---
 
-
 ## **Optional: Check Topics**
 
-To verify the nodes are publishing to the `chatter` topic:
+To verify the nodes are publishing to the `ros2intro` topic:
 
 ```bash
-ros2 topic echo /topic
+ros2 topic echo /ros2intro
 ```

@@ -1,6 +1,6 @@
-# **ROS 2 Basic Tools**
+# **ROS 2 Tools**
 
-ROS 2 provides a comprehensive set of tools designed to help you interact with, manage, and troubleshoot your robot's software stack. These tools empower you to inspect your system, communicate between nodes, visualize data, and simulate complex scenarios. Below is an overview of these essential tools, their purposes, and how to use them effectively.
+ROS 2 provides a comprehensive set of tools designed to help you interact with, manage, and troubleshoot your robot's software stack. These tools empower you to inspect your system, communicate between nodes, visualize data, and simulate complex scenarios. Below is an overview of some of these essential tools, their purposes, and how to use them effectively.
 
 ---
 
