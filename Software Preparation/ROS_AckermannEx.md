@@ -2,7 +2,8 @@
 
 Instructions to create create nodes that publish and subscribe to AckermannDriveStamped messages
 
-**Background Information**
+## Background Information
+
 > Ackermann steering is a common steering mechanism used in many vehicles, particularly those designed for on-road driving, such as cars and trucks. The fundamental principle of Ackermann steering is to allow the wheels to follow a circular path during a turn, ensuring that the inner wheel rotates at a different speed than the outer wheel. This system helps in reducing tire wear and improves vehicle handling.
 >
 > In the context of Robot Operating System (ROS), Ackermann drive models are often employed in mobile robotics, particularly for autonomous vehicles. In ROS, you can utilize specific message types and packages designed to handle Ackermann-style steering, making it easier to control robot movement effectively.
@@ -10,11 +11,13 @@ Instructions to create create nodes that publish and subscribe to AckermannDrive
 > In ROS, you can use the ackermann_msgs package, which provides message types for controlling vehicles with an Ackermann steering mechanism. The primary message type is AckermannDriveStamped, which includes:
 >
 > **drive:**
+>
 > - speed: The linear speed of the vehicle.
 > - steering_angle: The angle of the steering in radians.
 >
 > Here’s a brief overview of the message structure:
-> ```
+>
+> ```bash
 > # AckermannDrive message
 > # This represents the drive control signals for an Ackermann-steering vehicle
 > float64 speed       # Speed in meters per second
@@ -39,11 +42,12 @@ ros2 pkg create drive_com --build-type ament_python --dependencies rclpy ackerma
 
 ---
 
-## Step 2: Add Dependencies to `package.xml`
+## Step 2: Ensure the Dependencies to `package.xml` are correct
 
-Edit the **`package.xml`** file to declare the **`ackermann_msgs`** dependency properly. This ensures it can be installed via `rosdep`.
+Make sure the **`package.xml`** file declare the **`ackermann_msgs`** dependency properly. This ensures it can be installed via `rosdep`.
 
 **File:** `~/ros2_ws/src/drive_com/package.xml`
+
 ```xml
 <?xml version="1.0"?>
 <package format="3">
@@ -58,8 +62,6 @@ Edit the **`package.xml`** file to declare the **`ackermann_msgs`** dependency p
 
   <depend>rclpy</depend>
   <depend>ackermann_msgs</depend>
-
-  <exec_depend>ackermann_msgs</exec_depend>
 
   <export>
     <build_type>ament_python</build_type>
@@ -76,6 +78,7 @@ Edit the **`package.xml`** file to declare the **`ackermann_msgs`** dependency p
 Create a new Python file named **`talker.py`** inside the `drive_com/drive_com` directory.
 
 **File:** `~/ros2_ws/src/drive_com/drive_com/talker.py`
+
 ```python
 import rclpy
 from rclpy.node import Node
@@ -86,6 +89,7 @@ class Talker(Node):
         super().__init__('talker')
 
         # Declare parameters 'v' and 'd' with default values
+        # Note that parameters are dynamic values that can be changed within this code or externally by ROS, unlike regular python variables that are only internal
         self.declare_parameter('v', 0.0)
         self.declare_parameter('d', 0.0)
 
@@ -131,6 +135,7 @@ if __name__ == '__main__':
 Create another Python file named **`relay.py`** inside the `drive_com/drive_com` directory.
 
 **File:** `~/ros2_ws/src/drive_com/drive_com/relay.py`
+
 ```python
 import rclpy
 from rclpy.node import Node
@@ -184,6 +189,7 @@ if __name__ == '__main__':
 Update the **`setup.py`** file to include both nodes.
 
 **File:** `~/ros2_ws/src/drive_com/setup.py`
+
 ```python
 from setuptools import setup
 
@@ -213,14 +219,22 @@ setup(
 
 ## Step 5: Build and Install Dependencies
 
-First, make sure all dependencies are installed using **`rosdep`**:
-
-```bash
-cd ~/ros2_ws
-rosdep install --from-paths src --ignore-src -r -y
-```
+> If new dependencies were added or used, make sure they are properly declared in the `package.xml` file. Then, make sure all dependencies are installed using **`rosdep`**:
+>
+> ```bash
+> cd ~/ros2_ws
+> rosdep install --from-paths src --ignore-src -r -y
+> ```
+>
+>> `--ignore-src -r -y` means that:
+>>
+>> - It ignores dependencies that are already present in the source code.
+>> - It installs missing system dependencies using the package manager (apt for Ubuntu).
+>> - It reinstalls any system dependencies if needed (-r).
+>> - It runs without asking for confirmation (-y).
 
 Now, build the package:
+> **Make sure that you are at the workspace root folder**
 
 ```bash
 colcon build --packages-select drive_com
@@ -247,6 +261,7 @@ ros2 param set /talker d 1.2
 ```
 
 Alternatively, a YAML file can be created (e.g., `talker_params.yaml`):
+
 ```yaml
 talker:
   ros__parameters:
@@ -255,6 +270,7 @@ talker:
 ```
 
 And load by using the the option `--ros-args --params-file <address of the yaml file>`. For example (Given that you are in the workspace top level folder and the parameter file is in the package, inside a folder called `config`):
+
 ```bash
 ros2 run drive_com talker --ros-args --params-file src/drive_com/config/talker_params.yaml
 ```
@@ -265,13 +281,15 @@ ros2 run drive_com talker --ros-args --params-file src/drive_com/config/talker_p
 
 Open two terminals and run the **`talker`** and **`relay`** nodes.
 
-**Terminal 1: Run Talker Node**
+#### Terminal 1: Run Talker Node
+
 ```bash
 source ~/ros2_ws/install/setup.bash
 ros2 run drive_com talker
 ```
 
-**Terminal 2: Run Relay Node**
+#### Terminal 2: Run Relay Node
+
 ```bash
 source ~/ros2_ws/install/setup.bash
 ros2 run drive_com relay
@@ -289,7 +307,6 @@ ros2 topic echo /drive_relay
 ```
 
 ---
-
 
 ## Launch File
 
@@ -313,6 +330,7 @@ mkdir -p launch
 Place the **YAML parameter file** in the `config/` directory.
 
 **File:** `~/ros2_ws/src/drive_com/config/talker_params.yaml`
+
 ```yaml
 talker:
   ros__parameters:
@@ -327,6 +345,7 @@ talker:
 Create a launch file that launches **both `talker` and `relay` nodes** and sets parameters for the `talker` node using the YAML file.
 
 **File:** `~/ros2_ws/src/drive_com/launch/drive_com_launch.py`
+
 ```python
 from launch import LaunchDescription
 from launch_ros.actions import Node
@@ -338,7 +357,7 @@ def generate_launch_description():
         package='drive_com',
         executable='talker',
         name='talker',
-        parameters=['<absolute path to file ex: `/home/israel/ros2_ws/src/drive_com/config/talker_params.yaml'>'],
+        parameters=['<absolute path to file ex: `/home/israel/ros2_ws/src/drive_com/config/talker_params.yaml`>'],
         output='screen'
     )
 
@@ -358,6 +377,7 @@ def generate_launch_description():
 ```
 
 The parameters can also be directly set in the launch file by doing something like this
+
 ```python
 # Define the parameters directly in the launch file
     talker_params = {
@@ -374,6 +394,7 @@ The parameters can also be directly set in the launch file by doing something li
         output='screen'
     )
 ```
+
 ---
 
 ### Step 4: Build the Package
@@ -402,24 +423,29 @@ ros2 launch src/drive_com/launch/drive_com_launch.py
 
 You can verify that the nodes are running and the parameters are correctly set:
 
-#### List Running Nodes:
+#### List Running Nodes
+
 ```bash
 ros2 node list
 ```
+
 You should see:
-```
+
+```bash
 /talker
 /relay
 ```
 
-#### Check the Parameters for Talker:
+#### Check the Parameters for Talker
+
 ```bash
 ros2 param list /talker
 ros2 param get /talker v
 ros2 param get /talker d
 ```
 
-#### Monitor Topics:
+#### Monitor Topics
+
 Check if messages are being published correctly on the **`drive`** and **`drive_relay`** topics:
 
 ```bash
@@ -432,6 +458,7 @@ ros2 topic echo /drive_relay
 ### Summary
 
 This launch file ensures:
+
 1. **Both nodes (`talker` and `relay`) are launched.**
 2. **Parameters for `talker`** are set via the **YAML file**.
 3. **Output from both nodes** is shown on the screen.
