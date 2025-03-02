@@ -136,30 +136,24 @@ sudo apt install ros-dev-tools
 
 Each time you open a new terminal, you need to source the ROS2 setup script to configure your environment. Replace `<ROS Distribution>` with `foxy`, `humble`, or `jazzy` as appropriate.
 
+> You can find out which shell you are using by running the command `echo $0`. That command shows the shell that was used to start the current session.
+
 - **For Bash:**
 
   ```bash
   source /opt/ros/<ROS Distribution>/setup.bash
   ```
 
-  To automate this process, add the line to your **~/.bashrc**:
-
-  ```bash
-  echo "source /opt/ros/<ROS Distribution>/setup.bash" >> ~/.bashrc
-  source ~/.bashrc
-  ```
-
 - **For Zsh:**
 
   ```bash
-  source /opt/ros/<ROS Distribution>/setup.bash
+  source /opt/ros/<ROS Distribution>/setup.zsh
   ```
 
-  To automate for Zsh, add it to your **~/.zshrc**:
+- **For Sh:**
 
   ```bash
-  echo "source /opt/ros/<ROS Distribution>/setup.bash" >> ~/.zshrc
-  source ~/.zshrc
+  source /opt/ros/<ROS Distribution>/setup.sh
   ```
 
 ---
