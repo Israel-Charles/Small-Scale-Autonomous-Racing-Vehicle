@@ -1,4 +1,4 @@
-# ROS Intro
+# ROS Basic Example of Publisher & Subscriber
 
 Instructions for two nodes (Python and C++): a **publisher** that sends string messages and a **subscriber** that receives and prints them.
 
