@@ -13,7 +13,6 @@
 - Box or [Car stand](https://a.co/d/03Yckzs3) to put vehicle on  
 - Laptop/computer (does not need to be running Linux)
 
-**Approximate Time Investment:** 1 hour
 
 > ℹ️ **Note**
 >
