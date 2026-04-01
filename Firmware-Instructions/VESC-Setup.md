@@ -117,96 +117,12 @@ Update the firmware on the VESC.
 
 
 - Click on **Write Motor Configuration** (down arrow + M)
+> ⚠️ You must click this button whenever you change motor configuration.
+
 
 ![Servo Output](img/vesc/motor-general.png)
 
-
-> ⚠️ You must click this button whenever you change motor configuration.
-
-![Upload XML](img/vesc/xml.png)
-
----
-
-## 6. Detecting and Calculating Motor Parameters
-
-- Go to **Motor Settings → FOC**
-- Follow the 4-step detection process
-- Motor will spin and make noise — ensure wheels are clear
-
-![Detect Motor](img/vesc/detect_motor.png)
-
-After detection:
-- Fields turn green
-- Click **Apply**
-- Click **Write Motor Configuration**
-
-![Apply Motor Params](img/vesc/apply_motor.png)
-
----
-
-## 7. Changing Openloop Hysteresis and Time
-
-- Go to **Sensorless** tab
-- Set:
-  - **Openloop Hysteresis = 0.01**
-  - **Openloop Time = 0.01**
-- Click **Write Motor Configuration**
-
-![Openloop Settings](img/vesc/open_loop.png)
-
----
-
-## 8. Tuning the PID Controller
-
-To monitor RPM:
-
-- Go to **Data Analysis → Realtime Data**
-- Click **Stream Realtime Data (RT button)**
-- Open **RPM tab**
-
-![Realtime Data](img/vesc/realtime.png)
-
-### Step Response Testing
-
-- Set target RPM (2000–10000)
-- Click **Play** to start motor
-- Click **Stop/Anchor** to stop
-
-![Step Response](img/vesc/response.png)
-
-### Goal
-
-- Fast rise time
-- Minimal steady-state error
-- No oscillation
-
-### Adjust PID Gains
-
-- Go to **Motor Settings → PID Controllers**
-- Tune Speed PID gains
-
-> Tip: If oscillations occur, adjust **Speed PID Kd Filter**
-
-![PID Gains](img/vesc/pid_gains.png)
-
----
-
-## 9. Changing the Hardware Speed Limit
-
-- Go to **Motor Settings → General**
-- Adjust **Max ERPM** (forward/backward)
-
-![ERPM Settings](img/vesc/erpm.png)
-
-> ⚠️ **Important**
->
-> See the *Odometry Tuning* section in your software stack setup to understand how velocity maps to ERPM and determine safe limits.
-
----
----
----
-
-# *OLD INSTRUCTIONS (MIGHT NEED TO LOOK AT THIS IF ABOVE DOES NOT WORK)*
+# *OLD INSTRUCTIONS (MIGHT NEED TO LOOK AT THIS FOR FURTHER SETUP OF VESC)*
 
 # 1. Configuring the VESC
 
