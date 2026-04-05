@@ -7,15 +7,15 @@
 
 ## Equipment Required
 
-* Fully built RoboRacer vehicle with a Hokuyo 10LX LiDAR
+* Fully built vehicle with a Hokuyo 10LX LiDAR
 * Pit/Host Laptop **OR**
 * External monitor/display, HDMI cable, keyboard, mouse
 
 ---
 
-## Connect to Jetson NX
+## Connect to Onboard Computer
 
-Connect to the **Jetson NX** using either:
+Connect to the **onboard computer** using either:
 
 * SSH, or
 * Monitor + keyboard + mouse (direct connection)
