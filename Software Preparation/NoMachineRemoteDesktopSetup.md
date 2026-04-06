@@ -1,0 +1,454 @@
+# NoMachine Setup Guide (Vehicle/Robot Remote Access)
+
+This guide shows how to install **NoMachine** and remotely connect to the computer on your vehicle or your robot (e.g., Raspberry Pi, Jetson, Linux PC) from your **MacBook, Windows laptop, or Linux computer**.
+
+Note: It is best to use NoMachine with an HDMI dummy on the onboard computer. If not, you need to configure a dummy monitor on the machine (steps on how to do that is included)
+
+---
+
+## What is NoMachine?
+
+**NoMachine** is a remote desktop tool that lets you access another computer’s screen and control it from your laptop.
+
+It has similar features to services like:
+
+* Remote Desktop
+* TeamViewer
+* VNC
+
+---
+
+## Setup Overview
+
+You will install NoMachine on:
+
+### 1) Onboard Computer (Server)
+
+Examples:
+
+* Raspberry Pi
+* NVIDIA Jetson
+* Linux mini PC
+* Ubuntu computer
+
+This will **host** NoMachine.
+
+---
+
+### 2) Your Laptop (Client)
+
+Examples:
+
+* MacBook
+* Windows laptop
+* Linux laptop
+
+This will **connect** to the robot.
+
+---
+
+# Step 1: Install NoMachine on the Robot Computer
+
+## On Raspberry Pi / Jetson / Linux
+
+### 1. Go to NoMachine website
+
+Download from:
+
+[https://www.nomachine.com/download](https://www.nomachine.com/download)
+
+---
+
+### 2. Select the right version for your system
+
+**Might be under `Embedded Editions`**
+
+Click on:
+
+**ARM** (for Jetson)
+
+or
+
+**Raspberry Pi**
+
+or
+
+**Linux x86** (for Ubuntu PC)
+
+Download the `.deb` file.
+
+Example:
+
+```
+nomachine_8.x.x_arm64.deb
+```
+
+---
+
+### 3. Install NoMachine
+
+Open terminal on the onboard computer and run:
+
+```bash
+cd Downloads
+sudo dpkg -i nomachine*.deb
+sudo apt-get install -f
+```
+
+---
+
+### 4. Start NoMachine
+
+It usually starts automatically.
+
+To verify:
+
+```bash
+sudo /etc/NX/nxserver --status
+```
+
+You should see:
+
+```
+NX> 162 Enabled service: nxserver.
+NX> 162 NX service is running.
+```
+
+---
+
+# Step 2: Find the Robot IP Address
+
+You need the onboard computer’s IP address to connect.
+
+Run:
+
+```bash
+hostname -I
+```
+
+Example output:
+
+```
+192.168.1.45
+```
+
+---
+
+# Step 3: Install NoMachine on Your Laptop
+
+## Mac
+
+Download:
+
+macOS version
+
+Install like a normal app.
+
+---
+
+## Windows
+
+Download:
+
+Windows version
+
+Run installer.
+
+---
+
+## Linux
+
+Download:
+
+Linux version
+
+Install with:
+
+```bash
+sudo dpkg -i nomachine*.deb
+```
+
+---
+
+# Step 4: Connect to the Robot
+
+## Open NoMachine
+
+Launch NoMachine.
+
+You will see:
+
+```
+Add or New
+Search
+```
+
+If your laptop and the onboard computer are on the same network, you should see the onboard computer
+
+If you do not see it, you can try manually adding it as follow:
+
+Click:
+
+**Add/New**
+
+---
+
+## Enter onboard computer IP
+
+Ex: in Host section, Enter
+
+```
+192.168.1.45
+```
+
+Protocol:
+
+```
+NX
+```
+
+After configuring the connection, you should be able to connect
+
+## Connect
+
+Login using:
+
+Onboard computer username & password
+
+---
+
+## You should be able to see the robot desktop
+
+You now have full remote control.
+
+---
+
+# Headless Setup (No Monitor Connected)
+
+> **IMPORTANT**
+
+Some robot computers **do not start the desktop without a monitor**.
+
+### Fix
+
+You can use a dummy HDMI connector for that or enable virtual display.
+
+---
+
+## Raspberry Pi
+
+Run:
+
+```bash
+sudo raspi-config
+```
+
+Go to:
+
+```
+Display Options
+Resolution
+```
+
+Set:
+
+```
+1920x1080
+```
+
+Enable:
+
+```
+Boot to Desktop
+```
+
+Then reboot:
+
+```bash
+sudo reboot
+```
+
+---
+
+## Ubuntu / Jetson
+
+Install virtual display tools:
+
+```bash
+sudo apt install xserver-xorg-video-dummy
+```
+
+### 1. Create or edit the Xorg config
+
+Create a config file (or edit if it exists):
+
+```bash
+sudo nano /etc/X11/xorg.conf
+```
+
+---
+
+### 2. Add a dummy monitor configuration
+
+Example for **1920×1080**:
+
+```bash
+Section "Monitor"
+    Identifier "Monitor0"
+    HorizSync 28.0-80.0
+    VertRefresh 48.0-75.0
+    Modeline "1920x1080" 172.80 1920 2040 2248 2576 1080 1081 1084 1118
+EndSection
+
+Section "Device"
+    Identifier "Device0"
+    Driver "dummy"
+    VideoRam 256000
+EndSection
+
+Section "Screen"
+    Identifier "Screen0"
+    Device "Device0"
+    Monitor "Monitor0"
+    DefaultDepth 24
+    SubSection "Display"
+        Depth 24
+        Modes "1920x1080"
+    EndSubSection
+EndSection
+```
+
+---
+
+### 3. Restart X (or reboot)
+
+```bash
+sudo systemctl restart display-manager
+```
+
+Or just reboot:
+
+```bash
+sudo reboot
+```
+
+---
+
+# Enable auto login (Optional)
+
+Make sure desktop starts automatically.
+
+Check:
+
+```bash
+systemctl get-default
+```
+
+Should be:
+
+```
+graphical.target
+```
+
+If not:
+
+```bash
+sudo systemctl set-default graphical.target
+```
+
+Then:
+
+```bash
+sudo nano /etc/gdm3/custom.conf
+```
+
+Uncomment:
+
+```
+AutomaticLoginEnable = true
+AutomaticLogin = ubuntu
+```
+
+Reboot.
+
+---
+
+# Set Static IP (Optional)
+
+Use Router to set the onboard computer IP Address to static so the IP never changes.
+
+Example:
+
+```
+192.168.1.45
+```
+
+This avoids connection issues.
+
+---
+
+# Connecting Over Wi-Fi Hotspot
+
+Common robot setup:
+
+Robot creates hotspot.
+
+Laptop connects to robot.
+
+Then NoMachine connects.
+
+Example:
+
+Robot:
+
+```
+192.168.8.1
+```
+
+Laptop connects to:
+
+```
+Robot_WiFi
+```
+
+Then connect to:
+
+```
+192.168.8.1
+```
+
+---
+
+# Common Problems
+
+## Cannot Connect
+
+Check:
+
+```bash
+sudo /etc/NX/nxserver --status
+```
+
+Restart:
+
+```bash
+sudo /etc/NX/nxserver --restart
+```
+
+---
+
+## Connection Refused
+
+Check firewall:
+
+```bash
+sudo ufw disable
+```
+
+or open port:
+
+```
+4000
+```
+
+---
