@@ -202,6 +202,14 @@ $HOME/f1tenth_ws/src/f1tenth_system/f1tenth_stack/config/sensors.yaml
 
 ---
 
+### Build Workspace
+
+```bash
+colcon build
+```
+
+---
+
 ### Source Environment
 
 ```bash
