@@ -2,7 +2,7 @@
 
 This guide shows how to install **NoMachine** and remotely connect to the computer on your vehicle or your robot (e.g., Raspberry Pi, Jetson, Linux PC) from your **MacBook, Windows laptop, or Linux computer**.
 
-Note: It is best to use NoMachine with an HDMI dummy on the onboard computer. If not, you need to configure a dummy monitor on the machine (steps on how to do that is included)
+Note: It is best to use NoMachine with an HDMI dummy on the onboard computer. A lot of single board computers will not run display related tasks if no HDMI cable is connected. Therefore you will most likely not be able to connect to the onboard computer if nothing is in the HDMI port.
 
 ---
 
