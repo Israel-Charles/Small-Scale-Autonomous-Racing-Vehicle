@@ -92,7 +92,7 @@ Open terminal on the onboard computer and run:
 ```bash
 cd Downloads
 sudo dpkg -i nomachine*.deb
-sudo apt-get install -f
+sudo apt install -f
 ```
 
 ---
@@ -232,105 +232,6 @@ Some robot computers **do not start the desktop without a monitor**.
 ### Fix
 
 You can use a dummy HDMI connector for that or enable virtual display.
-
----
-
-## Raspberry Pi
-
-Run:
-
-```bash
-sudo raspi-config
-```
-
-Go to:
-
-```
-Display Options
-Resolution
-```
-
-Set:
-
-```
-1920x1080
-```
-
-Enable:
-
-```
-Boot to Desktop
-```
-
-Then reboot:
-
-```bash
-sudo reboot
-```
-
----
-
-## Ubuntu / Jetson
-
-Install virtual display tools:
-
-```bash
-sudo apt install xserver-xorg-video-dummy
-```
-
-### 1. Create or edit the Xorg config
-
-Create a config file (or edit if it exists):
-
-```bash
-sudo nano /etc/X11/xorg.conf
-```
-
----
-
-### 2. Add a dummy monitor configuration
-
-Example for **1920×1080**:
-
-```bash
-Section "Monitor"
-    Identifier "Monitor0"
-    HorizSync 28.0-80.0
-    VertRefresh 48.0-75.0
-    Modeline "1920x1080" 172.80 1920 2040 2248 2576 1080 1081 1084 1118
-EndSection
-
-Section "Device"
-    Identifier "Device0"
-    Driver "dummy"
-    VideoRam 256000
-EndSection
-
-Section "Screen"
-    Identifier "Screen0"
-    Device "Device0"
-    Monitor "Monitor0"
-    DefaultDepth 24
-    SubSection "Display"
-        Depth 24
-        Modes "1920x1080"
-    EndSubSection
-EndSection
-```
-
----
-
-### 3. Restart X (or reboot)
-
-```bash
-sudo systemctl restart display-manager
-```
-
-Or just reboot:
-
-```bash
-sudo reboot
-```
 
 ---
 
