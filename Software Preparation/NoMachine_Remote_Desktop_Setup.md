@@ -227,7 +227,7 @@ You now have full remote control.
 
 > **IMPORTANT**
 
-Some robot computers **do not start the desktop without a monitor**.
+Some single-board computers **do not start the desktop without a monitor**.
 
 ### Fix
 
