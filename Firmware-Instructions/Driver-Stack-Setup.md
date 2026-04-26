@@ -163,7 +163,7 @@ cd src
 git clone --branch humble-devel https://github.com/f1tenth/f1tenth_system.git
 ```
 
-**For Ubuntu 22.04 and up**
+**For Ubuntu 20.04 and up**
 ```bash
 cd src
 git clone https://github.com/f1tenth/f1tenth_system.git
