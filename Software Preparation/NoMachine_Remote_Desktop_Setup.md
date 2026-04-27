@@ -90,6 +90,12 @@ nomachine_8.x.x_arm64.deb
 Open terminal on the onboard computer and run:
 
 ```bash
+sudo apt install ./nomachine*.deb
+```
+
+or
+
+```bash
 cd Downloads
 sudo dpkg -i nomachine*.deb
 sudo apt install -f
