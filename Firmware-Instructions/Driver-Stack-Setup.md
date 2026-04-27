@@ -74,7 +74,7 @@ sudo nano /etc/udev/rules.d/99-joypad-f710.rules
 ```
 
 ```bash
-KERNEL=="js[0-9]*", ACTION=="add", ATTRS{idVendor}=="046d", ATTRS{idProduct}=="c219", SYMLINK+="input/joypad-f710"
+KERNEL=="js[0-9]*", ACTION=="add", ATTRS{idVendor}=="046d", ATTRS{idProduct}=="c21f", SYMLINK+="input/joypad-f710"
 ```
 
 ### Apply Rules
