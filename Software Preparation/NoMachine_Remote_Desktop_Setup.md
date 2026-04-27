@@ -1,6 +1,6 @@
-# NoMachine Setup Guide (Vehicle/Robot Remote Access)
+# NoMachine Setup Guide (Onboard Computer Remote Access)
 
-This guide shows how to install **NoMachine** and remotely connect to the computer on your vehicle or your robot (e.g., Raspberry Pi, Jetson, Linux PC) from your **MacBook, Windows laptop, or Linux computer**.
+This guide shows how to install **NoMachine** and remotely connect to the another computer (e.g., Raspberry Pi, Jetson, Linux PC) from your **MacBook, Windows, or Linux computer**.
 
 Note: It is best to use NoMachine with an HDMI dummy on the onboard computer. A lot of single board computers will not run display related tasks if no HDMI cable is connected. Therefore you will most likely not be able to connect to the onboard computer if nothing is in the HDMI port.
 
@@ -8,7 +8,7 @@ Note: It is best to use NoMachine with an HDMI dummy on the onboard computer. A 
 
 ## What is NoMachine?
 
-**NoMachine** is a remote desktop tool that lets you access another computer’s screen and control it from your laptop.
+**NoMachine** is a remote desktop tool that lets you access another computer’s screen and control it from another computer.
 
 It has similar features to services like:
 
@@ -35,19 +35,19 @@ This will **host** NoMachine.
 
 ---
 
-### 2) Your Laptop (Client)
+### 2) Your Computer (Client)
 
 Examples:
 
 * MacBook
-* Windows laptop
-* Linux laptop
+* Windows
+* Linux
 
-This will **connect** to the robot.
+This will **connect** to the onboard computer.
 
 ---
 
-# Step 1: Install NoMachine on the Robot Computer
+# Step 1: Install NoMachine on the Onboard Computer
 
 ## On Raspberry Pi / Jetson / Linux
 
@@ -116,7 +116,7 @@ NX> 162 NX service is running.
 
 ---
 
-# Step 2: Find the Robot IP Address
+# Step 2: Find the Onboard Computer IP Address
 
 You need the onboard computer’s IP address to connect.
 
@@ -134,7 +134,7 @@ Example output:
 
 ---
 
-# Step 3: Install NoMachine on Your Laptop
+# Step 3: Install NoMachine on Your Computer (Client)
 
 ## Mac
 
@@ -170,7 +170,7 @@ sudo dpkg -i nomachine*.deb
 
 ---
 
-# Step 4: Connect to the Robot
+# Step 4: Connect to the Onboard Computer
 
 ## Open NoMachine
 
@@ -290,17 +290,17 @@ This avoids connection issues.
 
 # Connecting Over Wi-Fi Hotspot
 
-Common robot setup:
+Common setup:
 
-Robot creates hotspot.
+Onboard Computer creates hotspot.
 
-Laptop connects to robot.
+Laptop connects to Onboard Computer.
 
 Then NoMachine connects.
 
 Example:
 
-Robot:
+Onboard Computer:
 
 ```
 192.168.8.1
