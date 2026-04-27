@@ -196,7 +196,7 @@ rosdep update
 rosdep install --from-paths src -i -y
 ```
 
-* Might need to run `rosdep update --include-eol-distros`*
+*Might need to run `rosdep update --include-eol-distros`*
 
 ### Build Workspace
 
